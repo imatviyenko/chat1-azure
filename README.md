@@ -1,2 +1,2 @@
 # chat1-azure
-Chat demo project Azure deployment scripts
+Azure deployment scripts for chat demo app
