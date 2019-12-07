@@ -1,0 +1,9 @@
+{
+    "servicePrincipalName":  "service_principal_chat1",
+    "tenantId":  "2a1c1fec-6750-4a80-9cb4-7e4bdeea648f",
+    "resourceGroupName": "resource_group_chat1",
+    "resourceGroupAzureRegion": "canadacentral",
+    "storageAccountName": "sachat1",
+    "storageAccountKind": "StorageV2",
+    "storageAccountSkuName": "Standard_LRS"
+}
