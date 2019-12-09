@@ -13,7 +13,44 @@ Azure deployment scripts for chat demo app
 - Create resource group in tenant to host all Azure resources used by the project (one time operation). The security principal should be already created before this step. After the resource group is created the security principal is granted Owner role permissions for it and all other scripts can be run without prompting for the tenant admin credentials in fully automated way.   
 **Execute:** ```C:\work\source\chat1\chat1-azure> .\common\create-resource-group.ps1```
 
+- Create Azure Storage Account in resource group to host static html, js and css files for React front-end. This step will be executed with the credentials of the service principal configured in the previous steps.
+**Execute:** 
+```
+C:\work\source\chat1\chat1-azure> .\common\connect-azure.ps1
+C:\work\source\chat1\chat1-azure> .\prepare-azure\create-storage-account.ps1
+```
+
+- Create Azure App Service plan and web application in resource group to host Node/Express back-end. This step will be executed with the credentials of the service principal configured in the previous steps.
+    1. **Execute:** 
+    ```
+    C:\work\source\chat1\chat1-azure> .\common\connect-azure.ps1
+    C:\work\source\chat1\chat1-azure> .\prepare-azure\create-app-service.ps1
+    ```
+    2. Open Azure Portal at https://portal.azure.com/, find the newly created App Service web application and configure it for GitHub CI according to this article [Continuous deployment to Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/deploy-continuous-deployment). Select "App Service build service" to use Kudu build engine.
+
+
+- Create Atlas Mongo DB cluster (free tier) by visiting [this url](https://www.mongodb.com/cloud/atlas/azure-mongodb) and completing the sign up process.
+    1. Create a free tier cluster
+    2. Create two MongoDB users: admin (cluster full control), chat1 (read and write any database)
+    3. White-list the Outbound IP addresses of the back-end Azure App Service web app (Settings -> Properties -> Outbound IP addresses). You can either whitelist individual outbound IP addresses or whitelist a CIDR range like 40.85.0.0/16.
+    4. Load sample documents into test database "chat1" and colllection "collection1": {index: 1, title: "Document1"}, {index: 2, title: "Document2"}, {index: 3, title: "Document3"}
+
+
+- Copy the whole contents of **config** folder to projects **chat1-fe** and **chat1-be** to **scripts** subfolders in each project. The filled in **config.json** and **protected\servicePrincipalPassword.enc** files contain the values which will be used by the deployment scripts in **chat1-fe** and **chat1-be** projects to access Azure.
 
 ## Connecting to Azure
 - Make sure that Azure tenant parameters are configured in config/config.json file, service principal for scripts has been created and that the service principal password file exists at **config\protected\servicePrincipalPassword.enc**  
 **Execute:** ```C:\work\source\chat1\chat1-azure> .\common\connect-azure.ps1```
+
+
+## (Optional) Using Azure Cosmos DB instead of MongoDB Atlas
+Create Azure Cosmos DB account in MongoDB API mode for Node/Express back-end data and add the environment variable for MongoDB connection URI in the settings of the Azure App Service web application. This step will be executed with the credentials of the service principal configured in the previous steps.
+    1. **Execute:** 
+    ```
+    C:\work\source\chat1\chat1-azure> .\common\connect-azure.ps1
+    C:\work\source\chat1\chat1-azure> .\prepare-azure\create-cosmos-db.ps1
+    ```
+    2. Open Azure Portal at https://portal.azure.com/, open the newly created Cosmos DB account, go to the "Quick start" section and copy the "PRIMARY CONNECTION STRING" value for  Node.js 3.0 driver to the clipboard.   
+    **! KEEP THIS CONNECTION STRING A SECRET AS ITS EXPOSURE MAY LEAD TO DATA LOSS/LEAKAGE**
+    3. Open Azure Portal at https://portal.azure.com/, open the back-end App Service web application, go to the "Configuration" section. Add a new application setting "MONGODB_URI" which will be accessible inside the Node.js app code as **process.env.MONGODB_URI** env property, set this setting's value to the string copied in the clipboard in the previous step.
+    4. (Optional) Open Data Explorer for CosmosDB database in Azure Portal and add some test documents to collection "collection1" in the shape of {index: 1, title: "Document1"}

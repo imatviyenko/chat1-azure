@@ -22,10 +22,15 @@ try {
     Write-Host "New Azure resource group $($config.resourceGroupName) created in Azure region $($config.resourceGroupAzureRegion)";
 
 
-    # Give service principal full control permissions to the newly created resource group
+    # Give service principal Owner role permissions to the newly created resource group
     Write-Host "Granting service principal Owner permissions to Azure resource group...";
     New-AzRoleAssignment -ObjectId $servicePrincipal.Id -RoleDefinitionName "Owner"  -ResourceGroupName $config.resourceGroupName;
     Write-Host "Service principal $($config.servicePrincipalName) was granted Owner permissions to Azure resource group $($config.resourceGroupName)";
+
+    # Give service principal Storage Blob Data Owner role permissions to the newly created resource group
+    Write-Host "Granting service principal Storage Blob Data Owner permissions to Azure resource group...";
+    New-AzRoleAssignment -ObjectId $servicePrincipal.Id -RoleDefinitionName "Storage Blob Data Owner" -ResourceGroupName $config.resourceGroupName;
+    Write-Host "Service principal $($config.servicePrincipalName) was granted Storage Blob Data Owner permissions to Azure resource group $($config.resourceGroupName)";
 } catch {
     Write-Error $_;
 }
