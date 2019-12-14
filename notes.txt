@@ -1,0 +1,9 @@
+Front-end URL on Azure:
+https://sachat1.z9.web.core.windows.net/
+
+
+Back-end URL on Azure:
+https://webappchat1.azurewebsites.net/
+
+MongoDB Atlas cluster on Azure:
+https://cloud.mongodb.com/v2/5dee3d15c56c98bca20cff7c

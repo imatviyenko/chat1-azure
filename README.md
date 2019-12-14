@@ -44,6 +44,8 @@ C:\work\source\chat1\chat1-azure> .\prepare-azure\create-storage-account.ps1
 
 
 ## (Optional) Using Azure Cosmos DB instead of MongoDB Atlas
+*It is also possible to use Azure CosmosDB in MongoDB API mode for storing data in the cloud, but there are some API level compatibility issues. Because of this, MongoDB Atlas on Azure was chosen as the database back-end for the chat system. But just in case, instructions on how to provision Azure CosmosDB instance are provided below.*
+
 Create Azure Cosmos DB account in MongoDB API mode for Node/Express back-end data and add the environment variable for MongoDB connection URI in the settings of the Azure App Service web application. This step will be executed with the credentials of the service principal configured in the previous steps.
     1. **Execute:** 
     ```
