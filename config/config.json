@@ -7,7 +7,7 @@
     "storageAccountKind": "StorageV2",
     "storageAccountSkuName": "Standard_LRS",
     "appServicePlanName": "app_service_plan_chat1",
-    "appServicePlanTier": "Free",
+    "appServicePlanTier": "Basic",
     "appServiceWebAppName": "webappchat1",
     "cosmosDBAccountName": "cosmosdbchat1",
     "cosmosDBDatabaseName": "cosmosdbchat1db1"

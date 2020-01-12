@@ -1,0 +1,25 @@
+# https://pkisharp.github.io/win-acme/reference/plugins/validation/dns/azure
+
+$servicePrincipal = New-AzADServicePrincipal -DisplayName "letsencrypt";
+$servicePrincipalPasswordAsSecureString  = $servicePrincipal.Secret;
+$UnsecurePassword = (New-Object PSCredential "user",$servicePrincipalPasswordAsSecureString).GetNetworkCredential().Password
+$UnsecurePassword
+<service_principal_password>
+
+
+- Copy Microsoft.Azure.Services.AppAuthentication.dll from lib\netstandard2.0 folder in Microsoft.Azure.Services.AppAuthentication nuget package to win-acme folder
+- Set prop Security.PrivateKeyExportable to 'true' in settings.json file in win-acme folder
+- .\wacs.exe
+-  M: Create new certificate (full options)
+- 2: Manual input
+- chat1.imatviyenko.xyz, chat1api.imatviyenko.xyz
+- Suggested FriendlyName is '[Manual] chat1.imatviyenko.xyz', press enter to accept or type an alternative: chat1.imatviyenko.xyz_cert_v1
+- 6: [dns-01] Create verification records in Azure DNS
+- Do you want to use a managed service identity? (y*/n) n
+- Directory/tenant id: 2a1c1fec-6750-4a80-9cb4-7e4bdeea648f
+- Application client id: 7340634d-6a91-4c96-a8e9-7e85f2bf5dc7
+- Application client secret: <service_principal_password>
+- DNS subscription id: be0ffb43-3e32-4b0d-996a-85aafca35e9e
+- DNS resource group name: resource_group_azure_dns
+
+
