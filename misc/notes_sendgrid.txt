@@ -1,0 +1,2 @@
+SendGrid Account: azure_9e2e71603fe525d1e8ca648683239b8b@azure.com
+Verified sender domain: em7400.chat1.imatviyenko.xyz
