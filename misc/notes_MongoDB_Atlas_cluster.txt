@@ -1,0 +1,4 @@
+# How to manage MongoDB Atlas cluster:
+- Open this URL in browser: https://cloud.mongodb.com/
+- Login using your email and password
+
